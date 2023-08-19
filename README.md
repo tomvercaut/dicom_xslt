@@ -18,7 +18,11 @@ To enable the latter, a set of [XSLT] files has been created.
 
 ## Building
 
-To automate the building of the seperate [XML] files from the different [DICOM] standard parts, a [Fish] script is provided. If you don't have [Fish] installed, you can run the commands manually in a terminal.
+To automate the building of the seperate [XML] files from the different [DICOM] standard parts, [Bash] and [Fish] scripts are provided.
+
+```bash
+./build.sh
+```
 
 ```fish
 ./build.fish
@@ -153,6 +157,7 @@ Unless you explicitly state otherwise, any contribution intentionally submitted 
 [DICOM]: https://www.dicomstandard.org
 [DocBook]: https://docbook.org/
 [XML]: https://www.w3.org/TR/xml-entity-names/
+[Bash]: https://www.gnu.org/software/bash/
 [Fish]: https://fishshell.com/
 [wget]: https://www.gnu.org/software/wget/
 [xsltproc]: https://gitlab.gnome.org/GNOME/libxslt
