@@ -1,0 +1,7 @@
+.idea
+.vscode
+*.xml
+*.json
+docbook
+build
+
