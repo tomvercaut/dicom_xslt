@@ -32,6 +32,26 @@ download_deps() {
   fi
 }
 
+VALID_ARGS=$(getopt -o k --long keep -- "$@")
+if [[ $? -ne 0 ]]; then
+  echo "Unable to parse all arguments."
+  exit 1;
+fi
+
+keep=0
+eval set -- "$VALID_ARGS"
+while [ : ]; do
+  case "$1" in
+    -k | --keep)
+      keep=1
+      shift
+      ;;
+    --) shift;
+      break
+      ;;
+  esac
+done
+
 if [ ! -d build ]; then
   mkdir build
 fi
@@ -44,3 +64,7 @@ transform_dicom_part build/registry.xml build/docbook/part06/part06.xml src/data
 transform_dicom_part build/macros.xml build/docbook/part03/part03.xml src/macro_attributes.xsl
 transform_dicom_part build/modules.xml build/docbook/part03/part03.xml src/module_attributes.xsl
 transform_dicom_part build/ciod_modules.xml build/docbook/part03/part03.xml src/ciod_modules.xsl
+
+if [ $keep = 0 ]; then
+  rm -rf build/docbook
+fi
