@@ -29,6 +29,8 @@ function download_deps -a part
   end
 end
 
+argparse 'k/keep' -- $argv
+
 if not test -d build
   mkdir build
 end
@@ -41,3 +43,7 @@ transform_dicom_part build/registry.xml build/docbook/part06/part06.xml src/data
 transform_dicom_part build/macros.xml build/docbook/part03/part03.xml src/macro_attributes.xsl
 transform_dicom_part build/modules.xml build/docbook/part03/part03.xml src/module_attributes.xsl
 transform_dicom_part build/ciod_modules.xml build/docbook/part03/part03.xml src/ciod_modules.xsl
+
+if not set -q _flag_keep
+  rm -rf build/docbook
+end
