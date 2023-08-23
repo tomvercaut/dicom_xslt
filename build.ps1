@@ -1,3 +1,8 @@
+Param(
+    [Parameter(Mandatory=$False)]
+    [switch] $Keep = $False
+)
+
 function TransformDicomStandard {
     [CmdletBinding()]
     param (
@@ -38,10 +43,10 @@ function DownloadDeps {
     
     process {
         if (!(Test-Path -Path "build/docbook")) {
-            mkdir "build/docbook"
+            mkdir "build/docbook" > $null
         }
         if (!(Test-Path -Path "build/docbook/$Part")) {
-            mkdir "build/docbook/$Part"
+            mkdir "build/docbook/$Part" > $null
         }
         if (!(Test-Path -Path "build/docbook/$Part/$Part.xml")) {
             Invoke-WebRequest -Uri "http://dicom.nema.org/medical/dicom/current/source/docbook/$Part/$Part.xml" -OutFile "build/docbook/$Part/$Part.xml"
@@ -54,7 +59,7 @@ function DownloadDeps {
 }
 
 if (!(Test-Path -Path "build")) {
-    mkdir "build"
+    mkdir "build" > $null
 }
 
 Remove-Item -Path "build/*.xml"
@@ -66,3 +71,7 @@ TransformDicomStandard -OutputXmlPath "build/registry.xml" -Xsl "src/data_dictio
 TransformDicomStandard -OutputXmlPath "build/macros.xml" -Xsl "src/macro_attributes.xsl" -InputXmlPath "build/docbook/part03/part03.xml"
 TransformDicomStandard -OutputXmlPath "build/modules.xml" -Xsl "src/module_attributes.xsl" -InputXmlPath "build/docbook/part03/part03.xml"
 TransformDicomStandard -OutputXmlPath "build/ciod_modules.xml" -Xsl "src/ciod_modules.xsl" -InputXmlPath "build/docbook/part03/part03.xml"
+
+if (!$Keep) {
+  Remove-Item -Path "build/docbook" -Recurse -Force
+}
